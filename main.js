@@ -1,5 +1,9 @@
-const pokemon = ['charmander', 'bulbasaur', 'squirtle'];
-const pokemonIDs = ['001', '004', '007']
+const pokemon = [
+    {name: 'Bulbasaur', id: '001'},
+    {name: 'Charmander', id: '004'},
+    {name: 'Squirtle', id: '007'}
+]
+
 const containerDiv = document.querySelector('#container')
 
 // DOM = Document Object Model
@@ -8,14 +12,16 @@ const containerDiv = document.querySelector('#container')
 // set the HTML element values
 // append the HTML element to the DOM
 
-pokemonIDs.map((id) => {
-    let imgUrl = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png`
-    console.log('img url', imgUrl);
+pokemon.map((element, index) => {
+    console.log(element)
+    let imgUrl = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${element.id}.png`
     // adding a div to house the img element
     let div = document.createElement('div'); // adding a div to house the img element
+    let h3 = document.createElement('h3');
+    h3.innerText = element.name;
     div.setAttribute('class', 'pokemon-card'); // setting the class of the div
     let img = document.createElement('img'); // creating the img element
     img.src = imgUrl;
-    div.append(img);
+    div.append(img, h3);
     containerDiv.append(div);
 })
