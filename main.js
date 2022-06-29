@@ -10,15 +10,38 @@ const containerDiv = document.querySelector('#container')
 const newBtn = document.querySelector('#new-pokemon-btn')
 const rosterDiv = document.querySelector('#roster')
 
-newBtn.addEventListener('click', () => {
+newBtn.addEventListener('click', async () => {
     let num = prompt('ENTER A POKEMON NUMBER');
     console.log('Number entered', num);
+    if(num[0] == '0')
+    {
+       dataNum = num.slice(1,3)
+    }
+    if(num[0] == 0 & num[1] == 0)
+    {
+       dataNum = num.slice(2,3)
+    }
     let imgUrl = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${num}.png`
+    let dataUrl = `https://pokeapi.co/api/v2/pokemon/${dataNum}`
+    let req = await fetch(dataUrl);
+    let res = await req.json();
+    let name = res.forms[0].name;
+    let audioUrl = `https://play.pokemonshowdown.com/audio/cries/${name.toLowerCase()}.mp3`
+    let audio = document.createElement('audio');
+    let source = document.createElement('source');
+    source.setAttribute('src', audioUrl);
+    source.setAttribute('type', 'audio/mpeg');
+    audio.append(source);
+    let h3 = document.createElement('h3')
+    h3.innerText = name
     let img = document.createElement('img')
     img.setAttribute('src', imgUrl);
     img.setAttribute('class', 'roster-img')
     let position = document.querySelector(`#pokemon-${userRoster.length+1}`)
-    position.append(img)
+    position.append(img, h3, audio)
+    position.addEventListener('click', () => {
+        audio.play();
+    })
     userRoster.push(num);
 })
 
